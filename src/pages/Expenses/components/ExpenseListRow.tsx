@@ -3,14 +3,18 @@ import { expense } from "../types/expense";
 import { Icon } from "./Icon";
 import { useState } from "react";
 import { ClickableIcon } from "./ClickableIcon";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { deleteExpense } from "../../../api/apiExpenses";
+import toast from "react-hot-toast";
 
 interface Props {
   expense: expense;
-  onDelete: (idToDelete: number) => void;
 }
 
-export function ExpenseListRow({ expense, onDelete }: Props) {
+export function ExpenseListRow({ expense }: Props) {
+  const { id: expenseId, amount, concept, category } = expense;
   const [hovered, setHovered] = useState(false);
+  const queryClient = useQueryClient();
 
   const handleOnMouseOver = () => {
     setHovered(true);
@@ -20,22 +24,33 @@ export function ExpenseListRow({ expense, onDelete }: Props) {
     setHovered(false);
   };
 
-  const handleDeleteRow = () => {
-    onDelete(expense.id);
-  };
-
-  const handleEditRow = () => {};
+  const { mutate } = useMutation({
+    mutationFn: deleteExpense,
+    onSuccess: () => {
+      toast.success("Expense successfully deleted");
+      queryClient.invalidateQueries({ queryKey: ["expenses"] });
+    },
+    onError: (err) => toast.error(err.message),
+  });
 
   return (
     <Row onMouseOver={handleOnMouseOver} onMouseLeave={handleOnMouseLeave}>
-      <AmountField>{expense.amount}</AmountField>
-      <Icon category={expense.category} size="small" />
-      <TextField>{expense.concept}</TextField>
+      <AmountField>{amount}</AmountField>
+      <Icon category={category} size="small" />
+      <TextField>{concept}</TextField>
       {hovered && (
-        <ClickableIcon icon="edit" size="mini" onClick={handleDeleteRow} />
+        <ClickableIcon
+          icon="edit"
+          size="mini"
+          onClick={() => mutate(expenseId)}
+        />
       )}
       {hovered && (
-        <ClickableIcon icon="delete" size="mini" onClick={handleDeleteRow} />
+        <ClickableIcon
+          icon="delete"
+          size="mini"
+          onClick={() => mutate(expenseId)}
+        />
       )}
     </Row>
   );

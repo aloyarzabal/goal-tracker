@@ -1,6 +1,6 @@
 import styled, { css } from "styled-components";
 
-const Heading = styled.h1<{ center?: boolean }>`
+const Heading = styled.h1<{ $center?: boolean }>`
   ${(props) =>
     props.as === "h1" &&
     css`
@@ -27,7 +27,7 @@ const Heading = styled.h1<{ center?: boolean }>`
     
   line-height: 1.4;
   margin-bottom: 40px;
-  text-align: ${(props) => (props.center ? "center" : "none")};
+  text-align: ${(props) => (props.$center ? "center" : "none")};
 `;
 
 export default Heading;

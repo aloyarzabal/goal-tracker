@@ -5,12 +5,11 @@ import Heading from "../../../components/Heading";
 
 interface Props {
   expenses: expense[];
-  onDelete: (idToDelete: number) => void;
 }
 
-export function ExpensesEntriesList({ expenses, onDelete }: Props) {
+export function ExpensesEntriesList({ expenses }: Props) {
   const expenseList = expenses.map((exp) => {
-    return <ExpenseListRow key={exp.id} expense={exp} onDelete={onDelete} />;
+    return <ExpenseListRow key={exp.id} expense={exp} />;
   });
 
   return (

@@ -6,10 +6,23 @@ import { ExpensesView } from "./pages/Expenses/ExpensesView";
 import { LoginView } from "./pages/Login/LoginView";
 import { SettingsView } from "./pages/Settings/SettingsView";
 import { PageNotFound } from "./pages/PageNotFound";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import { Toaster } from "react-hot-toast";
+
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 0,
+    },
+  },
+});
 
 export function App() {
   return (
-    <>
+    <QueryClientProvider client={queryClient}>
+      <ReactQueryDevtools initialIsOpen={false} />
+
       <GlobalStyles />
       <BrowserRouter>
         <Routes>
@@ -23,7 +36,9 @@ export function App() {
           <Route path="*" element={<PageNotFound />} />
         </Routes>
       </BrowserRouter>
+
+      <Toaster position="top-center" />
       {/* <AppLayout /> */}
-    </>
+    </QueryClientProvider>
   );
 }

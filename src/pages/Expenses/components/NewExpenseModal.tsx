@@ -3,76 +3,107 @@ import { ExpenseCategory, expense } from "../types/expense";
 import { useRef } from "react";
 import { allSystemCategories } from "../utils/expenseUtils";
 import { Modal } from "./Modal";
+import { useMutation, useQueryClient } from "@tanstack/react-query";
+import toast from "react-hot-toast";
+import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
+import { addExpense } from "../../../api/apiExpenses";
+import { Button } from "../../../components/Button";
 
 interface Props {
-  onAdd: (expense: expense) => void;
   onClose: () => void;
 }
 
-export function NewExpenseModal({ onAdd, onClose }: Props) {
-  const amountFieldRef = useRef<HTMLInputElement>(null);
-  const conceptFieldRef = useRef<HTMLInputElement>(null);
+export function NewExpenseModal({ onClose }: Props) {
   const categoryFieldRef = useRef<HTMLSelectElement>(null);
   const categories = allSystemCategories();
+  const queryClient = useQueryClient();
+  const { register, handleSubmit, reset, formState } = useForm();
+  const { errors } = formState;
 
-  const handleSubmit = (event: React.FormEvent) => {
-    event.preventDefault();
+  const { mutate } = useMutation({
+    mutationFn: addExpense,
+    onSuccess: () => {
+      toast.success("Expense added successfully");
+      queryClient.invalidateQueries({
+        queryKey: ["expenses"],
+      });
+      reset();
+    },
+  });
 
-    if (
-      amountFieldRef.current &&
-      conceptFieldRef.current &&
-      categoryFieldRef.current
-    ) {
+  const onSubmit: SubmitHandler<FieldValues> = (data) => {
+    if (categoryFieldRef.current) {
       const newExpense: expense = {
         id: -1,
-        amount: +amountFieldRef.current.value,
-        concept: conceptFieldRef.current.value,
+        amount: data.amount,
+        concept: data.concept,
         category: categoryFieldRef.current.value as ExpenseCategory,
       };
 
-      onAdd(newExpense);
-
-      amountFieldRef.current.value = "";
-      conceptFieldRef.current.value = "";
+      mutate(newExpense);
+      onClose();
     }
   };
 
-  const options = categories.map((cat) => {
+  const dropdownOptions = categories.map((cat) => {
     return (
-      <option value={cat} key={cat}>
+      <option value={cat} key={cat} selected={cat === ExpenseCategory.PAYMENTS}>
         {cat}
       </option>
     );
   });
 
+  function onError() {
+    console.log(errors);
+  }
+
   const form = (
     <FormContainer>
-      <form action="" className="newExpenseForm" onSubmit={handleSubmit}>
+      <Form action="">
         <CloseButton onClick={onClose}>X</CloseButton>
         <InputWrapper>
           <label htmlFor="amount">Amount:</label>
-          <input type="text" id="amount" name="amount" ref={amountFieldRef} />
+          <input
+            type="text"
+            id="amount"
+            autoFocus
+            {...register("amount", {
+              required: "This field is required",
+              min: { value: 0, message: "Minimum value is zero" },
+            })}
+          />
         </InputWrapper>
         <InputWrapper>
           <label htmlFor="concept">Concept:</label>
           <input
             type="text"
             id="concept"
-            name="concept"
-            ref={conceptFieldRef}
+            {...register("concept", {
+              required: "This field is required",
+            })}
           />
         </InputWrapper>
         <InputWrapper>
           <label htmlFor="category">Category:</label>
-          <select ref={categoryFieldRef}>{options}</select>
+          <select ref={categoryFieldRef}>{dropdownOptions}</select>
         </InputWrapper>
-        <input type="submit" value="Add expense" />
-      </form>
+        <Button onClick={handleSubmit(onSubmit, onError)}>Add expense</Button>
+      </Form>
     </FormContainer>
   );
 
   return <Modal>{form}</Modal>;
 }
+
+const Form = styled.form`
+  padding: 18px 35px;
+  background-color: var(--color-grey-0);
+  border-radius: var(--border-radius-sm);
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  position: relative;
+`;
 
 const FormContainer = styled.div`
   display: flex;

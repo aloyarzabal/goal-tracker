@@ -15,7 +15,7 @@ export function Sidebar() {
   return (
     <StyledSidebar>
       <Image type="logo" />
-      <Heading as="h1" center>
+      <Heading as="h1" $center>
         Goal tracker
       </Heading>
       <MainNav />

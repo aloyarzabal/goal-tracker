@@ -158,13 +158,6 @@ button {
   color: var(--text-color);
 }
 
-.newExpenseForm {
-  background-color: var(--main-background-color);
-  padding: 18px 35px;
-  border-radius: var(--border-radius);
-  position: relative;
-}
-
 
 /*
 FOR DARK MODE
