@@ -38,7 +38,6 @@ export function App() {
       </BrowserRouter>
 
       <Toaster position="top-center" />
-      {/* <AppLayout /> */}
     </QueryClientProvider>
   );
 }

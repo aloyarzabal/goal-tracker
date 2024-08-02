@@ -72,6 +72,7 @@ export function NewExpenseModal({ onClose }: Props) {
               min: { value: 0, message: "Minimum value is zero" },
             })}
           />
+          {errors?.amount?.message && <Error>{errors.amount.message}</Error>}
         </InputWrapper>
         <InputWrapper>
           <label htmlFor="concept">Concept:</label>
@@ -82,6 +83,7 @@ export function NewExpenseModal({ onClose }: Props) {
               required: "This field is required",
             })}
           />
+          {errors?.concept?.message && <Error>{errors.concept.message}</Error>}
         </InputWrapper>
         <InputWrapper>
           <label htmlFor="category">Category:</label>
@@ -127,4 +129,8 @@ const CloseButton = styled.button`
   border-radius: 50%;
   background-color: var(--white-color);
   line-height: 10px;
+`;
+
+const Error = styled.span`
+  color: var(--color-red-700);
 `;

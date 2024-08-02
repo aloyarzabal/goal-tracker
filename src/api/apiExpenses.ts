@@ -1,7 +1,7 @@
-import { expense } from "../pages/Expenses/types/expense";
+import { expenseApiView, expense } from "../pages/Expenses/types/expense";
 import { supabase } from "./supabase";
 
-export async function getExpenses(): Promise<expense[]> {
+export async function getExpenses(): Promise<expenseApiView[]> {
   const { data, error } = await supabase.from("expenses").select();
 
   if (error) {
