@@ -1,3 +1,5 @@
+export type expenseToApi = Omit<expenseApiView, "id">;
+
 export enum ExpenseCategory {
   HOUSE = "house",
   FOOD = "food",
@@ -23,6 +25,27 @@ export function expenseFromJSON(expense: expenseApiView): expense {
     category: expense.category,
     createdAt: expense.created_at,
     recurrent: expense.recurrent,
+  };
+}
+export function expenseToJSONNoId(expense: expense): expenseToApi {
+  const { amount, concept, category, createdAt, recurrent } = expense;
+  return {
+    amount,
+    concept,
+    category,
+    created_at: createdAt,
+    recurrent,
+  };
+}
+export function expenseToJSON(expense: expense): expenseApiView {
+  const { id, amount, concept, category, createdAt, recurrent } = expense;
+  return {
+    id,
+    amount,
+    concept,
+    category,
+    created_at: createdAt,
+    recurrent,
   };
 }
 

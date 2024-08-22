@@ -17,14 +17,14 @@ const Heading = styled.h1<{ $center?: boolean }>`
       font-size: 2rem;
       font-weight: 600;
     `}
-    
-    ${(props) =>
+
+  ${(props) =>
     props.as === "h3" &&
     css`
       font-size: 2rem;
       font-weight: 500;
     `}
-    
+
   line-height: 1.4;
   margin-bottom: 40px;
   text-align: ${(props) => (props.$center ? "center" : "none")};

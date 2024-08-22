@@ -23,5 +23,6 @@ export function ExpensesEntriesList({ expenses }: Props) {
 const ExpenseTable = styled.div`
   border-radius: var(--border-radius-md);
   padding: 3rem 5rem;
+  margin-bottom: 2rem;
   background-color: var(--color-grey-0);
 `;

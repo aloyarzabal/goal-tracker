@@ -1,22 +1,22 @@
 export function formatDateDayMonth(dt: Date) {
   const date = new Date(dt);
-  const day = date.getDay().toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
 
   return `${day}/${month}`;
 }
-export function formatFullDate(dt: Date) {
+export function formatFullDate(dt: Date, yearFirst?: boolean) {
   const date = new Date(dt);
-  const day = date.getDay().toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
   const month = (date.getMonth() + 1).toString().padStart(2, "0");
   const year = date.getFullYear();
 
-  return `${day}/${month}/${year}`;
+  return yearFirst ? `${year}-${month}-${day}` : `${day}/${month}/${year}`;
 }
 
 export function todaysDay() {
   const date = new Date();
-  const day = date.getDay().toString().padStart(2, "0");
+  const day = date.getDate().toString().padStart(2, "0");
 
   return day;
 }
@@ -41,6 +41,13 @@ export function todaysYear() {
 
 export function todayFullDate() {
   return formatFullDate(new Date());
+}
+
+export function todayFullDateDashed() {
+  return formatFullDate(new Date(), true);
+}
+export function dateDashed(dt: Date) {
+  return formatFullDate(dt, true);
 }
 
 export function getMonthFromRawDate(dt: Date) {

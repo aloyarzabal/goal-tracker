@@ -1,28 +1,32 @@
-import { ReactNode } from "react";
-import styled from "styled-components";
+import styled, { css } from "styled-components";
 
-interface Props {
-  children: ReactNode;
-  onClick: () => void;
-}
+const variations = {
+  primary: css`
+    background-color: var(--color-main);
+    color: var(--color-grey-0);
 
-export function Button({ children, onClick }: Props) {
-  return <StyledButton onClick={onClick}>{children}</StyledButton>;
-}
+    &:hover {
+      background-color: var(--color-main-75);
+    }
+  `,
+  secondary: css`
+    background-color: var(--color-gray-0);
+    color: inherit;
+    border: 1px solid var(--color-grey-200);
 
-const StyledButton = styled.button`
+    &:hover {
+      background-color: var(--color-grey-100);
+    }
+  `,
+};
+
+const Button = styled.button<{ $secondary?: boolean }>`
   border-radius: var(--border-radius-sm);
-  color: var(--color-grey-0);
-  background-color: var(--color-main);
-  margin-top: 30px;
   padding: 1.5rem;
   transition: transform 0.1s ease;
 
-  &:hover {
-    transform: translateY(-0.33em);
-  }
-
-  &:active {
-    transform: translateY(-0);
-  }
+  ${(props) =>
+    props.$secondary ? variations["secondary"] : variations["primary"]}
 `;
+
+export default Button;

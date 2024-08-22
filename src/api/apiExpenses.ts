@@ -1,4 +1,8 @@
-import { expenseApiView, expense } from "../pages/Expenses/types/expense";
+import {
+  expense,
+  expenseApiView,
+  expenseToApi,
+} from "../pages/Expenses/types/expense";
 import { supabase } from "./supabase";
 
 export async function getExpenses(): Promise<expenseApiView[]> {
@@ -21,16 +25,30 @@ export async function deleteExpense(id: number) {
   }
 }
 
-export async function addExpense(expense: expense) {
-  const { category, concept, amount } = expense;
+export async function addExpense(expense: expenseToApi) {
   const { data, error } = await supabase
     .from("expenses")
-    .insert([{ category: category, concept: concept, amount: amount }])
+    .insert([expense])
     .select();
 
   if (error) {
     console.error(error);
     throw new Error("Expense could not be added");
+  }
+
+  return data;
+}
+
+export async function updateExpense(newExpense: expenseApiView) {
+  const { data, error } = await supabase
+    .from("expenses")
+    .update(newExpense)
+    .eq("id", newExpense.id)
+    .select();
+
+  if (error) {
+    console.error(error);
+    throw new Error("Expense could not be updated");
   }
 
   return data;
