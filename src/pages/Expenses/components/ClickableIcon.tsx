@@ -2,9 +2,10 @@ import styled from "styled-components";
 import { SizeToMeasures } from "../utils/expenseUtils";
 import { DeleteIcon } from "./icons/DeleteIcon";
 import { EditIcon } from "./icons/EditIcon";
+import { RepeatIcon } from "../../../components/icons/RepeatIcon";
 
 interface Props {
-  icon: "edit" | "delete";
+  icon: "edit" | "delete" | "repeat";
   size: "small" | "medium" | "large" | "mini";
   onClick: () => void;
 }
@@ -17,6 +18,8 @@ export function ClickableIcon({ icon, size, onClick }: Props) {
         return <DeleteIcon {...iconSize} />;
       case "edit":
         return <EditIcon {...iconSize} />;
+      case "repeat":
+        return <RepeatIcon {...iconSize} />;
       default:
         return <DeleteIcon {...iconSize} />;
     }
@@ -25,9 +28,6 @@ export function ClickableIcon({ icon, size, onClick }: Props) {
 }
 
 const IconWrapper = styled.div`
-  margin: auto 0;
-  padding: 0 5px;
-  display: flex;
-  justify-content: center;
   cursor: pointer;
+  width: 100%;
 `;

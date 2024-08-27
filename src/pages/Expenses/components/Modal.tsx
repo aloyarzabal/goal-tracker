@@ -6,7 +6,11 @@ interface Props {
 }
 
 export function Modal({ children }: Props) {
-  return <Overlay>{children}</Overlay>;
+  return (
+    <Overlay>
+      <Wrapper>{children}</Wrapper>
+    </Overlay>
+  );
 }
 
 const Overlay = styled.div`
@@ -20,4 +24,12 @@ const Overlay = styled.div`
   background: rgba(0, 0, 0, 0.5);
   backdrop-filter: blur(3px);
   z-index: 1;
+`;
+
+const Wrapper = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  position: relative;
 `;

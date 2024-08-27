@@ -1,7 +1,7 @@
 import styled from "styled-components";
 import { ExpenseCategory, expense } from "../types/expense";
 import { useMemo } from "react";
-import { Icon } from "./Icon";
+import { CategoryIcon } from "./CategoryIcon";
 import { allSystemCategories } from "../utils/expenseUtils";
 
 interface Props {
@@ -31,14 +31,17 @@ export function ExpensesSummary({ expenses }: Props) {
         }
         return (
           <TotalDisplay key={category}>
-            <Icon category={category as ExpenseCategory} size="medium" />
+            <CategoryIcon
+              category={category as ExpenseCategory}
+              size="medium"
+            />
             <TotalDisplayFieldWrapper>
               <TotalDisplayAmountField>{amount}</TotalDisplayAmountField>
               <TotalDisplayTextField>{category} </TotalDisplayTextField>
             </TotalDisplayFieldWrapper>
           </TotalDisplay>
         );
-      },
+      }
     );
 
     return fields;

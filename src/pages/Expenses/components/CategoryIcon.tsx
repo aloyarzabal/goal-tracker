@@ -11,7 +11,7 @@ interface Props {
   category: ExpenseCategory;
 }
 
-export function Icon({ size, category }: Props) {
+export function CategoryIcon({ size, category }: Props) {
   const iconSize = SizeToMeasures[size];
   const renderIcon = () => {
     switch (category) {

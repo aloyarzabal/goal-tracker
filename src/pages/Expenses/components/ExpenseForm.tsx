@@ -84,7 +84,6 @@ export function ExpenseForm({ expense, onClose }: Props) {
         createdAt: new Date(data.date),
         recurrent: data.recurrent,
       };
-      console.log("editExpense: ", editExpense);
       const exp = expenseToJSON(editExpense);
       mutateEdit(exp);
       onClose();
@@ -96,86 +95,84 @@ export function ExpenseForm({ expense, onClose }: Props) {
   }
 
   return (
-    <FormContainer>
-      <Form action="">
-        <Heading as="h2" $center>
-          {isEdit ? "Edit" : "New"} Expense
-        </Heading>
-        <CloseButton onClick={onClose}>X</CloseButton>
-        <InputWrapper>
-          <label htmlFor="amount">Amount:</label>
-          <input
-            type="text"
-            id="amount"
-            defaultValue={isEdit ? expense.amount : ""}
-            autoFocus
-            {...register("amount", {
-              required: "This field is required",
-              min: { value: 0, message: "Minimum value is zero" },
-            })}
-          />
-          {errors?.amount?.message && (
-            <Error>{errors.amount.message as string}</Error>
-          )}
-        </InputWrapper>
+    <Form action="">
+      <Heading as="h2" $center>
+        {isEdit ? "Edit" : "New"} Expense
+      </Heading>
+      <CloseButton onClick={onClose}>X</CloseButton>
+      <InputWrapper>
+        <label htmlFor="amount">Amount:</label>
+        <input
+          type="text"
+          id="amount"
+          defaultValue={isEdit ? expense.amount : ""}
+          autoFocus
+          {...register("amount", {
+            required: "This field is required",
+            min: { value: 0, message: "Minimum value is zero" },
+          })}
+        />
+        {errors?.amount?.message && (
+          <Error>{errors.amount.message as string}</Error>
+        )}
+      </InputWrapper>
 
-        <InputWrapper>
-          <label htmlFor="concept">Concept:</label>
-          <input
-            type="text"
-            id="concept"
-            defaultValue={isEdit ? expense.concept : ""}
-            {...register("concept", {
-              required: "This field is required",
-            })}
-          />
-          {errors?.concept?.message && (
-            <Error>{errors.concept.message as string}</Error>
-          )}
-        </InputWrapper>
+      <InputWrapper>
+        <label htmlFor="concept">Concept:</label>
+        <input
+          type="text"
+          id="concept"
+          defaultValue={isEdit ? expense.concept : ""}
+          {...register("concept", {
+            required: "This field is required",
+          })}
+        />
+        {errors?.concept?.message && (
+          <Error>{errors.concept.message as string}</Error>
+        )}
+      </InputWrapper>
 
-        <InputWrapper>
-          <label htmlFor="category">Category:</label>
-          <select
-            ref={categoryFieldRef}
-            defaultValue={isEdit ? expense?.category : ExpenseCategory.PAYMENTS}
-          >
-            {dropdownOptions}
-          </select>
-        </InputWrapper>
+      <InputWrapper>
+        <label htmlFor="category">Category:</label>
+        <select
+          ref={categoryFieldRef}
+          defaultValue={isEdit ? expense?.category : ExpenseCategory.PAYMENTS}
+        >
+          {dropdownOptions}
+        </select>
+      </InputWrapper>
 
-        <InputWrapper>
-          <label htmlFor="date">Date:</label>
-          <input
-            type="date"
-            defaultValue={isEdit ? dateDashed(expense.createdAt) : today}
-            id="date"
-            {...register("date", {
-              required: "This field is required",
-            })}
-          />
-          {errors?.concept?.message && (
-            <Error>{errors.concept.message as string}</Error>
-          )}
-        </InputWrapper>
+      <InputWrapper>
+        <label htmlFor="date">Date:</label>
+        <input
+          type="date"
+          defaultValue={isEdit ? dateDashed(expense.createdAt) : today}
+          id="date"
+          {...register("date", {
+            required: "This field is required",
+          })}
+        />
+        {errors?.concept?.message && (
+          <Error>{errors.concept.message as string}</Error>
+        )}
+      </InputWrapper>
 
-        <InputWrapper>
-          <label htmlFor="recurrent">Is recurrent?:</label>
-          <input type="checkbox" id="recurrent" {...register("recurrent")} />
-        </InputWrapper>
+      <InputWrapper>
+        <label htmlFor="recurrent">Is recurrent?:</label>
+        <input type="checkbox" id="recurrent" {...register("recurrent")} />
+      </InputWrapper>
 
-        <ButtonsWrapper>
-          <div>
-            <Button $secondary onClick={onClose}>
-              Cancel
-            </Button>
-            <Button onClick={handleSubmit(onSubmit, onError)}>
-              {isEdit ? "Update" : "Add"} expense
-            </Button>
-          </div>
-        </ButtonsWrapper>
-      </Form>
-    </FormContainer>
+      <ButtonsWrapper>
+        <div>
+          <Button $secondary onClick={onClose}>
+            Cancel
+          </Button>
+          <Button onClick={handleSubmit(onSubmit, onError)}>
+            {isEdit ? "Update" : "Add"} expense
+          </Button>
+        </div>
+      </ButtonsWrapper>
+    </Form>
   );
 }
 
@@ -186,14 +183,6 @@ const Form = styled.form`
   display: flex;
   flex-direction: column;
   gap: 20px;
-  position: relative;
-`;
-
-const FormContainer = styled.div`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  height: 100%;
   position: relative;
 `;
 

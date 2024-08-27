@@ -14,7 +14,7 @@ export interface expense {
   concept: string;
   category: ExpenseCategory;
   createdAt: Date;
-  recurrent: Boolean;
+  recurrent: boolean;
 }
 
 export function expenseFromJSON(expense: expenseApiView): expense {
@@ -55,7 +55,7 @@ export interface expenseApiView {
   concept: string;
   category: ExpenseCategory;
   created_at: Date;
-  recurrent: Boolean;
+  recurrent: boolean;
 }
 
 export function mapExpenseFromApi(expenses: expenseApiView[]) {
