@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from "@tanstack/react-query";
 
 export function useDeleteExpense() {
   const queryClient = useQueryClient();
+
   const { mutate: mutateDel } = useMutation({
     mutationFn: deleteExpense,
     onSuccess: () => {

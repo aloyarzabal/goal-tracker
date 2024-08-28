@@ -1,28 +1,33 @@
 import styled, { css } from "styled-components";
-import { ExpenseCategory } from "../types/expense";
 import { FoodIcon } from "./icons/FoodIcon";
 import { HouseIcon } from "./icons/HouseIcon";
 import { PaymentIcon } from "./icons/PaymentIcon";
 import { StackedCoinsIcon } from "./icons/StackedCoinsIcon";
 import { SizeToMeasures } from "../utils/expenseUtils";
+import { ExpenseIcon } from "./icons/ExpenseIcon";
+import { OthersIcon } from "./icons/OthersIcon";
 
 interface Props {
   size: "small" | "medium" | "large";
-  category: ExpenseCategory;
+  category: string;
 }
 
 export function CategoryIcon({ size, category }: Props) {
   const iconSize = SizeToMeasures[size];
   const renderIcon = () => {
     switch (category) {
-      case ExpenseCategory.SALARY:
+      case "salary":
         return <StackedCoinsIcon color="green" {...iconSize} />;
-      case ExpenseCategory.HOUSE:
+      case "house":
         return <HouseIcon color="orange" {...iconSize} />;
-      case ExpenseCategory.PAYMENTS:
+      case "payments":
         return <PaymentIcon color="red" {...iconSize} />;
-      case ExpenseCategory.FOOD:
+      case "food":
         return <FoodIcon color="violet" {...iconSize} />;
+      case "expenses":
+        return <ExpenseIcon color="cadetblue" {...iconSize} />;
+      case "others":
+        return <OthersIcon color="brown" {...iconSize} />;
       default:
         return <StackedCoinsIcon />;
     }
@@ -39,26 +44,38 @@ const IconWrapper = styled.div<{ type?: string }>`
   border-radius: 50%;
 
   ${(props) =>
-    props.type === ExpenseCategory.PAYMENTS &&
+    props.type === "payments" &&
     css`
       background-color: var(--color-red-100);
     `}
 
   ${(props) =>
-    props.type === ExpenseCategory.SALARY &&
+    props.type === "salary" &&
     css`
       background-color: var(--color-green-100);
     `}
 
   ${(props) =>
-    props.type === ExpenseCategory.FOOD &&
+    props.type === "food" &&
     css`
       background-color: var(--color-pink-100);
     `}
 
   ${(props) =>
-    props.type === ExpenseCategory.HOUSE &&
+    props.type === "house" &&
     css`
       background-color: var(--color-yellow-100);
+    `}
+
+  ${(props) =>
+    props.type === "expenses" &&
+    css`
+      background-color: var(--color-cadetblue-25);
+    `}
+
+  ${(props) =>
+    props.type === "others" &&
+    css`
+      background-color: var(--color-brown-10);
     `}
 `;

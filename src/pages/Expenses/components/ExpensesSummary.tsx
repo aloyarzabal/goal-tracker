@@ -2,7 +2,7 @@ import styled from "styled-components";
 import { ExpenseCategory, expense } from "../types/expense";
 import { useMemo } from "react";
 import { CategoryIcon } from "./CategoryIcon";
-import { allSystemCategories } from "../utils/expenseUtils";
+import { useCategories } from "../hooks/useCategories";
 
 interface Props {
   expenses: expense[];
@@ -13,10 +13,17 @@ interface amounts {
 }
 
 export function ExpensesSummary({ expenses }: Props) {
-  const entries = useMemo(() => {
-    const systemCategories = allSystemCategories();
+  const { categories: systemCategories, isLoading } = useCategories();
 
+  const entries = useMemo(() => {
     const amountsPerCategory: amounts = Object.create(null);
+    if (isLoading) return;
+
+    if (systemCategories) {
+      systemCategories.forEach((cat) => {
+        if (cat.active) amountsPerCategory[cat.category] = 0;
+      });
+    }
 
     expenses.forEach((exp) => {
       amountsPerCategory[exp.category]
@@ -26,15 +33,12 @@ export function ExpensesSummary({ expenses }: Props) {
 
     const fields = Object.entries(amountsPerCategory).map(
       ([category, amount]) => {
-        if (!systemCategories.find((syscat) => syscat === category)) {
+        if (!systemCategories?.find((syscat) => syscat.category === category)) {
           return;
         }
         return (
           <TotalDisplay key={category}>
-            <CategoryIcon
-              category={category as ExpenseCategory}
-              size="medium"
-            />
+            <CategoryIcon category={category} size="medium" />
             <TotalDisplayFieldWrapper>
               <TotalDisplayAmountField>{amount}</TotalDisplayAmountField>
               <TotalDisplayTextField>{category} </TotalDisplayTextField>
@@ -45,7 +49,7 @@ export function ExpensesSummary({ expenses }: Props) {
     );
 
     return fields;
-  }, [expenses]);
+  }, [expenses, systemCategories]);
 
   return <ExpensesSummaryWrapper>{entries}</ExpensesSummaryWrapper>;
 }

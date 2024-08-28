@@ -9,11 +9,11 @@ import {
 } from "../types/expense";
 import { dateDashed, todayFullDateDashed } from "../../../utils/formatDate";
 import { useRef } from "react";
-import { allSystemCategories } from "../utils/expenseUtils";
 import { FieldValues, SubmitHandler, useForm } from "react-hook-form";
 import { addExpense, updateExpense } from "../../../api/apiExpenses";
 import toast from "react-hot-toast";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
+import { useCategories } from "../hooks/useCategories";
 
 interface Props {
   expense?: expense;
@@ -25,17 +25,21 @@ export function ExpenseForm({ expense, onClose }: Props) {
   const { register, handleSubmit, reset, formState } = useForm();
   const { errors } = formState;
   const queryClient = useQueryClient();
-  const categories = allSystemCategories();
+  const { categories, isLoading } = useCategories();
 
   const isEdit = !!expense?.id;
 
   const today = todayFullDateDashed();
 
+  if (isLoading || !categories) return;
+
   const dropdownOptions = categories.map((cat) => {
     return (
-      <option value={cat} key={cat}>
-        {cat}
-      </option>
+      cat.active && (
+        <option value={cat.category} key={cat.category}>
+          {cat.category}
+        </option>
+      )
     );
   });
 
