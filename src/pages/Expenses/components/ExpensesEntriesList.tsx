@@ -10,7 +10,7 @@ interface Props {
 export function ExpensesEntriesList({ expenses }: Props) {
   return (
     <ExpenseTableContainer>
-      <Heading as="h2">Last expenses</Heading>
+      <Heading as="h3">Last expenses</Heading>
       <Table>
         <TableHeaders />
         <TableBody expenses={expenses} />

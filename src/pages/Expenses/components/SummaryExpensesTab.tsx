@@ -7,6 +7,7 @@ import Heading from "../../../components/Heading";
 import ExpensesFilters from "./ExpensesFilters";
 import { months, todaysMonthName } from "../../../utils/formatDate";
 import Button from "../../../components/Button";
+import { Spinner } from "../../../components/Spinner";
 
 export function SummaryExpensesTab() {
   const [showForm, setShowForm] = useState(false);
@@ -25,7 +26,7 @@ export function SummaryExpensesTab() {
     setSelectedMonth(value);
   };
 
-  if (isLoading || !expenses) return;
+  if (isLoading || !expenses) return <Spinner />;
 
   return (
     <>

@@ -38,6 +38,11 @@ export function ExpenseListRow({ expense }: Props) {
     setHovered(false);
   };
 
+  const deleteRow = () => {
+    mutateDel(expenseId);
+    setShowConfirmDeletion(false);
+  };
+
   const editExpenseModal = (
     <Modal>
       <ExpenseForm
@@ -46,11 +51,6 @@ export function ExpenseListRow({ expense }: Props) {
       />
     </Modal>
   );
-
-  const deleteRow = () => {
-    mutateDel(expenseId);
-    setShowConfirmDeletion(false);
-  };
 
   const confirmDeletionMessage = (
     <Modal>
@@ -75,7 +75,7 @@ export function ExpenseListRow({ expense }: Props) {
         <IconCell>
           {recurrent && <Icon icon="repeat" size="mini"></Icon>}
         </IconCell>
-        <AmountCell>{amount}</AmountCell>
+        <AmountCell>{amount.toFixed(2)}</AmountCell>
         <TextCell>{concept}</TextCell>
         <IconsCell>
           <Wrapper>
@@ -109,6 +109,15 @@ export function ExpenseListRow({ expense }: Props) {
 
 const TableRow = styled.tr`
   text-align: center;
+
+  &:hover {
+    background-color: var(--color-main-25) !important;
+
+    & td:last-of-type,
+    td:first-of-type {
+      background-color: var(--color-grey-0);
+    }
+  }
 `;
 
 const TextCell = styled.td`
@@ -138,30 +147,3 @@ const IconsCell = styled.td`
 const Wrapper = styled.div`
   display: flex;
 `;
-
-// const Row = styled.div`
-//   display: flex;
-//   gap: 10px;
-//   margin-bottom: 10px;
-//   padding-bottom: 5px;
-//   border-bottom: 1px solid var(--color-grey-100);
-
-//   &:hover {
-//     background-color: rgba(0, 0, 0, 0.05);
-//   }
-// `;
-
-// const AmountField = styled.p`
-//   width: 80px;
-//   text-align: center;
-// `;
-
-// const TextField = styled.p`
-//   min-width: 100px;
-// `;
-
-// const DateField = styled.p`
-//   margin: auto 0;
-//   font-size: 1.3rem;
-//   color: var(--color-grey-400);
-// `;

@@ -16,4 +16,5 @@ export function ExpensesView() {
 const ViewWrapper = styled.div`
   width: 800px;
   margin: 1.2rem auto;
+  height: 100%;
 `;

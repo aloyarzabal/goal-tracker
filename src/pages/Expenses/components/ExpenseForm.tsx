@@ -22,13 +22,13 @@ interface Props {
 
 export function ExpenseForm({ expense, onClose }: Props) {
   const categoryFieldRef = useRef<HTMLSelectElement>(null);
+
   const { register, handleSubmit, reset, formState } = useForm();
   const { errors } = formState;
   const queryClient = useQueryClient();
   const { categories, isLoading } = useCategories();
 
   const isEdit = !!expense?.id;
-
   const today = todayFullDateDashed();
 
   if (isLoading || !categories) return;
@@ -107,7 +107,7 @@ export function ExpenseForm({ expense, onClose }: Props) {
       <InputWrapper>
         <label htmlFor="amount">Amount:</label>
         <input
-          type="text"
+          type="number"
           id="amount"
           defaultValue={isEdit ? expense.amount : ""}
           autoFocus
@@ -163,7 +163,12 @@ export function ExpenseForm({ expense, onClose }: Props) {
 
       <InputWrapper>
         <label htmlFor="recurrent">Is recurrent?:</label>
-        <input type="checkbox" id="recurrent" {...register("recurrent")} />
+        <input
+          type="checkbox"
+          defaultChecked={isEdit ? expense.recurrent : false}
+          id="recurrent"
+          {...register("recurrent")}
+        />
       </InputWrapper>
 
       <ButtonsWrapper>

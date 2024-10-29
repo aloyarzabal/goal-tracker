@@ -1,8 +1,9 @@
 import styled from "styled-components";
-import { ExpenseCategory, expense } from "../types/expense";
+import { expense } from "../types/expense";
 import { useMemo } from "react";
 import { CategoryIcon } from "./CategoryIcon";
 import { useCategories } from "../hooks/useCategories";
+import { Spinner } from "../../../components/Spinner";
 
 interface Props {
   expenses: expense[];
@@ -17,7 +18,6 @@ export function ExpensesSummary({ expenses }: Props) {
 
   const entries = useMemo(() => {
     const amountsPerCategory: amounts = Object.create(null);
-    if (isLoading) return;
 
     if (systemCategories) {
       systemCategories.forEach((cat) => {
@@ -51,14 +51,19 @@ export function ExpensesSummary({ expenses }: Props) {
     return fields;
   }, [expenses, systemCategories]);
 
+  if (isLoading) {
+    return <Spinner />;
+  }
+
   return <ExpensesSummaryWrapper>{entries}</ExpensesSummaryWrapper>;
 }
 
 const ExpensesSummaryWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
+  justify-content: flex-start;
   margin: 70px 0;
+  gap: 10px;
 `;
 
 const TotalDisplay = styled.div`

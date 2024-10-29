@@ -6,6 +6,12 @@ import { StackedCoinsIcon } from "./icons/StackedCoinsIcon";
 import { SizeToMeasures } from "../utils/expenseUtils";
 import { ExpenseIcon } from "./icons/ExpenseIcon";
 import { OthersIcon } from "./icons/OthersIcon";
+import { DonationIcon } from "./icons/DonationIcon";
+import { ClothesIcon } from "./icons/ClothesIcon";
+import { CellphoneIcon } from "./icons/CellphoneIcon";
+import { TaxiIcon } from "./icons/TaxiIcon";
+import { TransportationIcon } from "./icons/TransportationIcon";
+import { GymIcon } from "./icons/GymIcon";
 
 interface Props {
   size: "small" | "medium" | "large";
@@ -26,10 +32,22 @@ export function CategoryIcon({ size, category }: Props) {
         return <FoodIcon color="violet" {...iconSize} />;
       case "expenses":
         return <ExpenseIcon color="cadetblue" {...iconSize} />;
+      case "clothes":
+        return <ClothesIcon color="purple" {...iconSize} />;
+      case "donation":
+        return <DonationIcon color="yellowgreen" {...iconSize} />;
+      case "cellphone":
+        return <CellphoneIcon color="cornflowerblue" {...iconSize} />;
+      case "taxi":
+        return <TaxiIcon color="gold" {...iconSize} />;
+      case "gym":
+        return <GymIcon color="silver" {...iconSize} />;
       case "others":
         return <OthersIcon color="brown" {...iconSize} />;
+      case "transportation":
+        return <TransportationIcon color="darkgreen" {...iconSize} />;
       default:
-        return <StackedCoinsIcon />;
+        return <OthersIcon color="brown" {...iconSize} />;
     }
   };
 
