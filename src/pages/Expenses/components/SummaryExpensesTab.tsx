@@ -9,6 +9,7 @@ import { months, todaysMonthName } from "../../../utils/formatDate";
 import Button from "../../../components/Button";
 import { Spinner } from "../../../components/Spinner";
 import { sortBy } from "../types/expense";
+import { sortExpenses } from "../utils/expenseUtils";
 
 export function SummaryExpensesTab() {
   const [showForm, setShowForm] = useState(false);
@@ -17,37 +18,9 @@ export function SummaryExpensesTab() {
   const [filter, setFilter] = useState(sortBy.DATEASC);
 
   const expenses = useMemo(() => {
-    if (filter === sortBy.AMOUNTDESC) {
-      unsortedExpenses?.sort((a, b) => b.amount - a.amount);
+    if (unsortedExpenses) {
+      return sortExpenses(filter, unsortedExpenses);
     }
-    if (filter === sortBy.AMOUNTASC) {
-      unsortedExpenses?.sort((a, b) => a.amount - b.amount);
-    }
-    if (filter === sortBy.DATEASC) {
-      unsortedExpenses?.sort((a, b) => {
-        if (a.createdAt < b.createdAt) {
-          return -1;
-        }
-        return 1;
-      });
-    }
-    if (filter === sortBy.DATEDESC) {
-      unsortedExpenses?.sort((a, b) => {
-        if (a.createdAt > b.createdAt) {
-          return -1;
-        }
-        return 1;
-      });
-    }
-    if (filter === sortBy.RECURRENT) {
-      unsortedExpenses?.sort((a, b) => {
-        if (a.recurrent === false && b.recurrent === true) {
-          return -1;
-        }
-        return 1;
-      });
-    }
-    return unsortedExpenses;
   }, [filter, unsortedExpenses]);
 
   const handleSort = (sortBy: sortBy) => {
