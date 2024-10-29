@@ -23,6 +23,9 @@ export function ExpensesEntriesList({ expenses, handleSort }: Props) {
     handleSort(amountAsc ? sortBy.AMOUNTASC : sortBy.AMOUNTDESC);
   };
 
+  const caretUp = <i className="fa fa-caret-up"></i>;
+  const caretDown = <i className="fa fa-caret-down"></i>;
+
   const TableHeaders = () => {
     return (
       <thead>
@@ -30,11 +33,13 @@ export function ExpensesEntriesList({ expenses, handleSort }: Props) {
           <th></th>
           <th>
             <button onClick={handleDateClick}>
-              Date {dateAsc ? "^" : "V"}
+              Date {dateAsc ? caretDown : caretUp}
             </button>
           </th>
           <th>R</th>
-          <th onClick={handleAmountClick}>Amount {amountAsc ? "^" : "V"}</th>
+          <th onClick={handleAmountClick}>
+            Amount {amountAsc ? caretDown : caretUp}
+          </th>
           <TextTH>Concept</TextTH>
         </TR>
       </thead>
