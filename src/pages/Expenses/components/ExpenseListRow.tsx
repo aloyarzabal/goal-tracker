@@ -9,6 +9,7 @@ import { ExpenseForm } from "./ExpenseForm";
 import { useDeleteExpense } from "../hooks/useDeleteExpense";
 import { ConfirmDeletionMessage } from "./ConfirmDeletionMessage";
 import { Icon } from "../../../components/Icon";
+import { formattedAmount } from "../utils/expenseUtils";
 
 interface Props {
   expense: expense;
@@ -75,7 +76,7 @@ export function ExpenseListRow({ expense }: Props) {
         <IconCell>
           {recurrent && <Icon icon="repeat" size="mini"></Icon>}
         </IconCell>
-        <AmountCell>{amount.toFixed(2)}</AmountCell>
+        <AmountCell>{formattedAmount(amount)}</AmountCell>
         <TextCell>{concept}</TextCell>
         <IconsCell>
           <Wrapper>

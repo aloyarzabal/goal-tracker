@@ -4,6 +4,7 @@ import { useMemo } from "react";
 import { CategoryIcon } from "./CategoryIcon";
 import { useCategories } from "../hooks/useCategories";
 import { Spinner } from "../../../components/Spinner";
+import { formattedAmount } from "../utils/expenseUtils";
 
 interface Props {
   expenses: expense[];
@@ -40,7 +41,9 @@ export function ExpensesSummary({ expenses }: Props) {
           <TotalDisplay key={category}>
             <CategoryIcon category={category} size="medium" />
             <TotalDisplayFieldWrapper>
-              <TotalDisplayAmountField>{amount}</TotalDisplayAmountField>
+              <TotalDisplayAmountField>
+                {formattedAmount(amount)}
+              </TotalDisplayAmountField>
               <TotalDisplayTextField>{category} </TotalDisplayTextField>
             </TotalDisplayFieldWrapper>
           </TotalDisplay>

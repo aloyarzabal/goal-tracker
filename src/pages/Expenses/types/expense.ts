@@ -1,4 +1,11 @@
 export type expenseToApi = Omit<expenseApiView, "id">;
+export enum sortBy {
+  AMOUNTASC = "amountAsc",
+  AMOUNTDESC = "amountDesc",
+  DATEASC = "dateAsc",
+  DATEDESC = "dateDesc",
+  RECURRENT = "recurrent",
+}
 
 export enum ExpenseCategory {
   HOUSE = "house",

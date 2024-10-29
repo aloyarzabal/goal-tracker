@@ -4,3 +4,7 @@ export const SizeToMeasures = {
   medium: { width: "40px", height: "40px" },
   large: { width: "60px", height: "60px" },
 };
+
+export function formattedAmount(amount: number) {
+  return amount.toFixed(2).replace(".", ",");
+}
