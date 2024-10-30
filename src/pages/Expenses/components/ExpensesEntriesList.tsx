@@ -2,44 +2,49 @@ import styled from "styled-components";
 import { expense, sortBy } from "../types/expense";
 import { ExpenseListRow } from "./ExpenseListRow";
 import Heading from "../../../components/Heading";
-import { useState } from "react";
+import { useMemo, useState } from "react";
+import { sortExpenses } from "../utils/expenseUtils";
 
 interface Props {
   expenses: expense[];
-  handleSort: (sortBy: sortBy) => void;
 }
 
-export function ExpensesEntriesList({ expenses, handleSort }: Props) {
+export function ExpensesEntriesList({ expenses }: Props) {
   const [dateAsc, setDateAsc] = useState(true);
   const [amountAsc, setAmountAsc] = useState(true);
+  const [sort, setSort] = useState(sortBy.DATEDESC);
+
+  const sortedExpenses = useMemo(() => {
+    if (expenses && sort) {
+      return sortExpenses(sort, expenses);
+    }
+  }, [sort, expenses]);
 
   const handleDateClick = () => {
     setDateAsc(() => !dateAsc);
-    handleSort(dateAsc ? sortBy.DATEASC : sortBy.DATEDESC);
+    setSort(dateAsc ? sortBy.DATEASC : sortBy.DATEDESC);
   };
 
   const handleAmountClick = () => {
     setAmountAsc(() => !amountAsc);
-    handleSort(amountAsc ? sortBy.AMOUNTASC : sortBy.AMOUNTDESC);
+    setSort(amountAsc ? sortBy.AMOUNTASC : sortBy.AMOUNTDESC);
   };
 
-  const caretUp = <i className="fa fa-caret-up"></i>;
-  const caretDown = <i className="fa fa-caret-down"></i>;
+  const showCaret = (value: boolean) => {
+    const caretUp = <i className="fa fa-caret-up"></i>;
+    const caretDown = <i className="fa fa-caret-down"></i>;
+
+    return value ? caretDown : caretUp;
+  };
 
   const TableHeaders = () => {
     return (
       <thead>
         <TR>
           <th></th>
-          <th>
-            <button onClick={handleDateClick}>
-              Date {dateAsc ? caretDown : caretUp}
-            </button>
-          </th>
+          <th onClick={handleDateClick}>Date {showCaret(dateAsc)}</th>
           <th>R</th>
-          <th onClick={handleAmountClick}>
-            Amount {amountAsc ? caretDown : caretUp}
-          </th>
+          <th onClick={handleAmountClick}>Amount {showCaret(amountAsc)}</th>
           <TextTH>Concept</TextTH>
         </TR>
       </thead>
@@ -50,7 +55,7 @@ export function ExpensesEntriesList({ expenses, handleSort }: Props) {
       <Heading as="h3">Last expenses</Heading>
       <Table>
         <TableHeaders />
-        <TableBody expenses={expenses} />
+        <TableBody expenses={sortedExpenses ?? expenses} />
       </Table>
     </ExpenseTableContainer>
   );
