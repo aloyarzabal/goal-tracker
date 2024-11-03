@@ -1,12 +1,12 @@
 import styled from "styled-components";
-import { months, nameToMonth } from "../../../utils/formatDate";
+import { months, todaysMonthName } from "../../../utils/formatDate";
+import { useSearchParams } from "react-router-dom";
 
-interface Props {
-  defaultValue: months;
-  onSelect: (value: months) => void;
-}
+export default function ExpensesFilters() {
+  const [searchParams, setSearchParams] = useSearchParams();
 
-export default function ExpensesFilters({ defaultValue, onSelect }: Props) {
+  const selectedMonth = searchParams.get("month") || todaysMonthName();
+
   const dropdownMonths = Object.values(months).map((month) => (
     <option key={month} value={month}>
       {month}
@@ -15,8 +15,8 @@ export default function ExpensesFilters({ defaultValue, onSelect }: Props) {
 
   const handleChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
     const value = ev.target.value;
-
-    onSelect(nameToMonth(value));
+    searchParams.set("month", value);
+    setSearchParams(searchParams);
   };
 
   return (
@@ -25,7 +25,7 @@ export default function ExpensesFilters({ defaultValue, onSelect }: Props) {
       <select
         id="month-select"
         onChange={handleChange}
-        defaultValue={defaultValue}
+        defaultValue={selectedMonth}
       >
         {dropdownMonths}
       </select>

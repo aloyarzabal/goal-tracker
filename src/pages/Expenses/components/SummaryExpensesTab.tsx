@@ -2,17 +2,15 @@ import { useState } from "react";
 import { ExpensesEntriesList } from "./ExpensesEntriesList";
 import { ExpensesSummary } from "./ExpensesSummary";
 import { NewExpenseModal } from "./NewExpenseModal";
-import { useExpenses } from "../hooks/useExpenses";
+import { useMonthExpenses } from "../hooks/useMonthExpenses";
 import Heading from "../../../components/Heading";
 import ExpensesFilters from "./ExpensesFilters";
-import { months, todaysMonthName } from "../../../utils/formatDate";
 import Button from "../../../components/Button";
 import { Spinner } from "../../../components/Spinner";
 
 export function SummaryExpensesTab() {
   const [showForm, setShowForm] = useState(false);
-  const [selectedMonth, setSelectedMonth] = useState(todaysMonthName());
-  const { expenses, isLoading } = useExpenses(selectedMonth);
+  const { expenses, isLoading } = useMonthExpenses();
 
   const showModal = () => {
     setShowForm(true);
@@ -22,22 +20,15 @@ export function SummaryExpensesTab() {
     setShowForm(false);
   };
 
-  const handleMonthSelect = (value: months) => {
-    setSelectedMonth(value);
-  };
-
   if (isLoading || !expenses) return <Spinner />;
 
   return (
     <>
       <Heading as="h2" $center>
-        {selectedMonth}'s summary
+        Dashboard
       </Heading>
       <ExpensesSummary expenses={expenses} />
-      <ExpensesFilters
-        defaultValue={selectedMonth}
-        onSelect={handleMonthSelect}
-      />
+      <ExpensesFilters />
       <ExpensesEntriesList expenses={expenses} />
       {showForm && <NewExpenseModal onClose={closeModal} />}
       <Button onClick={showModal}> + Add Expense</Button>

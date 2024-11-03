@@ -71,9 +71,31 @@ export enum months {
   NOVEMBER = "November",
   DECEMBER = "December",
 }
+export enum monthsToNumber {
+  "January" = "1",
+  "February" = "2",
+  "March" = "3",
+  "April" = "4",
+  "May" = "5",
+  "June" = "6",
+  "July" = "7",
+  "August" = "8",
+  "September" = "9",
+  "October" = "10",
+  "November" = "11",
+  "December" = "12",
+}
+
+export function stringToNumber(month: string) {
+  return Object.keys(monthsToNumber).indexOf(month) + 1;
+}
 
 export function numberToMonth(month: number) {
   return Object.values(months)[month];
+}
+
+export function monthToNumber(month: months) {
+  return Object.values(months).indexOf(month) + 1;
 }
 
 export function nameToMonth(month: string) {
