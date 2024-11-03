@@ -29,7 +29,8 @@ export function ExpensesEntriesList({ expenses }: Props) {
     if (expenses) {
       const se = sortExpenses(sort, expenses);
       const first = (pageNumber - 1) * PAGE_LENGTH;
-      const last = PAGE_LENGTH * pageNumber - 1;
+      const last = PAGE_LENGTH * pageNumber;
+      console.log(se.slice(first, last));
       return se.slice(first, last);
     }
   }, [sort, expenses, pageNumber]);
@@ -72,7 +73,7 @@ export function ExpensesEntriesList({ expenses }: Props) {
       <Table>
         <TableHeaders />
         <TableBody expenses={sortedExpenses ?? expenses} />
-        <TableFooter numberOfExpenses={numberOfExpenses} />
+        <TableFooter totalExpenses={numberOfExpenses} />
       </Table>
     </ExpenseTableContainer>
   );
@@ -86,15 +87,15 @@ function TableBody({ expenses }: { expenses: expense[] }) {
   return <tbody>{expenseList}</tbody>;
 }
 
-function TableFooter({ numberOfExpenses }: { numberOfExpenses: number }) {
+function TableFooter({ totalExpenses }: { totalExpenses: number }) {
   const [searchParams, setSearchParams] = useSearchParams();
   const pageNumber = Number(searchParams.get("page")) || 1;
   const isLastPage =
-    numberOfExpenses === 0 ||
+    totalExpenses === 0 ||
     pageNumber ===
-      (numberOfExpenses % PAGE_LENGTH === 0
-        ? numberOfExpenses / PAGE_LENGTH
-        : numberOfExpenses / PAGE_LENGTH + 1);
+      (totalExpenses % PAGE_LENGTH === 0
+        ? totalExpenses / PAGE_LENGTH
+        : Math.trunc(totalExpenses / PAGE_LENGTH + 1));
 
   const prevPage = () => {
     searchParams.set("page", String(pageNumber - 1));
@@ -105,18 +106,21 @@ function TableFooter({ numberOfExpenses }: { numberOfExpenses: number }) {
     setSearchParams(searchParams);
   };
 
+  const shownExpenses =
+    totalExpenses === 0
+      ? 0
+      : isLastPage
+        ? totalExpenses
+        : PAGE_LENGTH * pageNumber;
+
   return (
     <tfoot>
       <tr>
         <td colSpan={5}>
           <StyledFooter>
             <P>
-              Showing{" "}
-              <StyledSpan>
-                {numberOfExpenses === 0 ? 0 : PAGE_LENGTH}
-              </StyledSpan>{" "}
-              of
-              <StyledSpan> {numberOfExpenses}</StyledSpan> expenses
+              Showing <StyledSpan>{shownExpenses}</StyledSpan> of
+              <StyledSpan> {totalExpenses}</StyledSpan> expenses
             </P>
             <Buttons>
               <FooterButton

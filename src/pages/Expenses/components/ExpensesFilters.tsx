@@ -16,6 +16,7 @@ export default function ExpensesFilters() {
   const handleChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
     const value = ev.target.value;
     searchParams.set("month", value);
+    searchParams.set("page", "1");
     setSearchParams(searchParams);
   };
 
