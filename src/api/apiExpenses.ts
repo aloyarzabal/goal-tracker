@@ -7,8 +7,6 @@ export async function getExpensesByMonth(
   const startingDate = new Date(`2024-${month}-01`).toISOString();
   const finishingDate = new Date(`2024-${month + 1}-01`).toISOString();
 
-  console.log(startingDate, finishingDate, month);
-
   const query = supabase
     .from("expenses")
     .select()

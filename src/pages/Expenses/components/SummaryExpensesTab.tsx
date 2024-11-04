@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ExpensesEntriesList } from "./ExpensesEntriesList";
+import { ExpensesTable } from "./ExpensesTable";
 import { ExpensesSummary } from "./ExpensesSummary";
 import { NewExpenseModal } from "./NewExpenseModal";
 import { useMonthExpenses } from "../hooks/useMonthExpenses";
@@ -29,7 +29,7 @@ export function SummaryExpensesTab() {
       </Heading>
       <ExpensesSummary expenses={expenses} />
       <ExpensesFilters />
-      <ExpensesEntriesList expenses={expenses} />
+      <ExpensesTable expenses={expenses} />
       {showForm && <NewExpenseModal onClose={closeModal} />}
       <Button onClick={showModal}> + Add Expense</Button>
     </>

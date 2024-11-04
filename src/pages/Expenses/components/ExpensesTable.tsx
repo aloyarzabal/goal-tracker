@@ -5,8 +5,8 @@ import Heading from "../../../components/Heading";
 import { useMemo, useState } from "react";
 import { sortExpenses } from "../utils/expenseUtils";
 import { useSearchParams } from "react-router-dom";
+import { PAGE_LENGTH } from "../utils/constants";
 
-const PAGE_LENGTH = 10;
 const caretUp = <i className="fa fa-caret-up"></i>;
 const caretDown = <i className="fa fa-caret-down"></i>;
 const chevronLeft = <i className="fa fa-chevron-left"></i>;
@@ -16,24 +16,23 @@ interface Props {
   expenses: expense[];
 }
 
-export function ExpensesEntriesList({ expenses }: Props) {
+export function ExpensesTable({ expenses }: Props) {
   const [searchParams, setSearchParams] = useSearchParams();
   const [dateAsc, setDateAsc] = useState(true);
   const [amountAsc, setAmountAsc] = useState(true);
 
   const sort = searchParams.get("sortBy") || sortBy.DATEDESC;
-  const pageNumber = Number(searchParams.get("page")) || 1;
+  const currentPage = Number(searchParams.get("page")) || 1;
   const numberOfExpenses = expenses.length;
 
   const sortedExpenses = useMemo(() => {
     if (expenses) {
-      const se = sortExpenses(sort, expenses);
-      const first = (pageNumber - 1) * PAGE_LENGTH;
-      const last = PAGE_LENGTH * pageNumber;
-      console.log(se.slice(first, last));
-      return se.slice(first, last);
+      const first = (currentPage - 1) * PAGE_LENGTH;
+      const last = PAGE_LENGTH * currentPage;
+      return sortExpenses(sort, expenses).slice(first, last);
     }
-  }, [sort, expenses, pageNumber]);
+    return expenses;
+  }, [sort, expenses, currentPage]);
 
   const handleDateClick = () => {
     setDateAsc(() => !dateAsc);
@@ -72,14 +71,14 @@ export function ExpensesEntriesList({ expenses }: Props) {
       <Heading as="h3">Last expenses</Heading>
       <Table>
         <TableHeaders />
-        <TableBody expenses={sortedExpenses ?? expenses} />
-        <TableFooter totalExpenses={numberOfExpenses} />
+        <TableBody expenses={sortedExpenses} />
+        <TableFooter numberOfExpenses={numberOfExpenses} />
       </Table>
     </ExpenseTableContainer>
   );
 }
 
-function TableBody({ expenses }: { expenses: expense[] }) {
+function TableBody({ expenses }: Props) {
   const expenseList = expenses.map((exp) => {
     return <ExpenseListRow key={exp.id} expense={exp} />;
   });
@@ -87,31 +86,25 @@ function TableBody({ expenses }: { expenses: expense[] }) {
   return <tbody>{expenseList}</tbody>;
 }
 
-function TableFooter({ totalExpenses }: { totalExpenses: number }) {
+function TableFooter({ numberOfExpenses }: { numberOfExpenses: number }) {
   const [searchParams, setSearchParams] = useSearchParams();
-  const pageNumber = Number(searchParams.get("page")) || 1;
-  const isLastPage =
-    totalExpenses === 0 ||
-    pageNumber ===
-      (totalExpenses % PAGE_LENGTH === 0
-        ? totalExpenses / PAGE_LENGTH
-        : Math.trunc(totalExpenses / PAGE_LENGTH + 1));
+  const currentPage = Number(searchParams.get("page")) || 1;
+  const lastPage = Math.ceil(numberOfExpenses / PAGE_LENGTH);
+
+  const isLastPage = numberOfExpenses === 0 || currentPage === lastPage;
 
   const prevPage = () => {
-    searchParams.set("page", String(pageNumber - 1));
+    searchParams.set("page", String(currentPage - 1));
     setSearchParams(searchParams);
   };
   const nextPage = () => {
-    searchParams.set("page", String(pageNumber + 1));
+    searchParams.set("page", String(currentPage + 1));
     setSearchParams(searchParams);
   };
 
-  const shownExpenses =
-    totalExpenses === 0
-      ? 0
-      : isLastPage
-        ? totalExpenses
-        : PAGE_LENGTH * pageNumber;
+  const first =
+    numberOfExpenses === 0 ? 0 : (currentPage - 1) * PAGE_LENGTH + 1;
+  const last = isLastPage ? numberOfExpenses : PAGE_LENGTH * currentPage;
 
   return (
     <tfoot>
@@ -119,14 +112,15 @@ function TableFooter({ totalExpenses }: { totalExpenses: number }) {
         <td colSpan={5}>
           <StyledFooter>
             <P>
-              Showing <StyledSpan>{shownExpenses}</StyledSpan> of
-              <StyledSpan> {totalExpenses}</StyledSpan> expenses
+              Showing <StyledSpan>{first}</StyledSpan> to
+              <StyledSpan> {last} </StyledSpan>of
+              <StyledSpan> {numberOfExpenses}</StyledSpan> expenses
             </P>
             <Buttons>
               <FooterButton
                 onClick={prevPage}
-                disabled={pageNumber === 1}
-                $grayedOut={pageNumber === 1}
+                disabled={currentPage === 1}
+                $grayedOut={currentPage === 1}
               >
                 {chevronLeft} Previous
               </FooterButton>
@@ -182,6 +176,7 @@ const ExpenseTableContainer = styled.div`
 const StyledFooter = styled.div`
   display: flex;
   justify-content: space-between;
+  margin-top: 20px;
 `;
 
 const StyledSpan = styled.span`
