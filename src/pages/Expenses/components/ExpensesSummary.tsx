@@ -42,10 +42,10 @@ export function ExpensesSummary({ expenses }: Props) {
             <TotalDisplay key={category}>
               <CategoryIcon category={category} size="medium" />
               <TotalDisplayFieldWrapper>
+                <TotalDisplayTextField>{category} </TotalDisplayTextField>
                 <TotalDisplayAmountField>
                   {formattedAmount(amount)}
                 </TotalDisplayAmountField>
-                <TotalDisplayTextField>{category} </TotalDisplayTextField>
               </TotalDisplayFieldWrapper>
             </TotalDisplay>
           );
@@ -72,18 +72,20 @@ const ExpensesSummaryWrapper = styled.div`
 
 const TotalDisplay = styled.div`
   display: flex;
-  padding: 20px;
+  padding: 10px 20px;
   background-color: var(--color-grey-0);
   border-radius: var(--border-radius-md);
+  box-shadow: var(--shadow-md);
 `;
 
 const TotalDisplayTextField = styled.p`
   padding-top: 10px;
-  font-style: italic;
-  font-size: 1.2rem;
+  font-size: 1.1rem;
+  text-transform: uppercase;
 `;
 const TotalDisplayAmountField = styled.p`
   font-weight: bold;
+  font-size: 1.8rem;
 `;
 
 const TotalDisplayFieldWrapper = styled.div`

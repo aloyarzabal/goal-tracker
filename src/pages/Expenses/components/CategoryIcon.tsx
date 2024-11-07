@@ -45,7 +45,7 @@ export function CategoryIcon({ size, category }: Props) {
         return <GymIcon color="silver" {...iconSize} />;
       case "others":
         return <OthersIcon color="brown" {...iconSize} />;
-      case "transportation":
+      case "transport":
         return <TransportationIcon color="darkgreen" {...iconSize} />;
       case "restaurants":
         return <RestaurantIcon color="black" {...iconSize} />;
@@ -87,7 +87,6 @@ const IconWrapper = styled.div<{ type?: string }>`
     css`
       background-color: var(--color-cadetblue-25);
     `}
-
   ${(props) =>
     props.type === "others" &&
     css`

@@ -10,7 +10,7 @@ interface Props {
 
 export function ExpensesDashboard({ expenses }: Props) {
   return (
-    <div>
+    <section>
       <Row>
         <Heading as="h2" $center>
           Dashboard
@@ -19,7 +19,7 @@ export function ExpensesDashboard({ expenses }: Props) {
       </Row>
 
       <ExpensesSummary expenses={expenses} />
-    </div>
+    </section>
   );
 }
 

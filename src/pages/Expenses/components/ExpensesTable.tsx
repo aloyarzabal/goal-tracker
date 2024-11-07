@@ -6,7 +6,6 @@ import { useMemo, useState } from "react";
 import { sortExpenses } from "../utils/expenseUtils";
 import { useSearchParams } from "react-router-dom";
 import { PAGE_LENGTH } from "../utils/constants";
-import ExpensesFilters from "./ExpensesFilters";
 
 const caretUp = <i className="fa fa-caret-up"></i>;
 const caretDown = <i className="fa fa-caret-down"></i>;
@@ -70,14 +69,14 @@ export function ExpensesTable({ expenses }: Props) {
     );
   };
   return (
-    <ExpenseTableContainer>
+    <section>
       <Heading as="h2">All expenses</Heading>
       <Table>
         <TableHeaders />
         <TableBody expenses={sortedExpenses} />
         <TableFooter numberOfExpenses={numberOfExpenses} />
       </Table>
-    </ExpenseTableContainer>
+    </section>
   );
 }
 
@@ -171,10 +170,6 @@ const TR = styled.tr`
     font-weight: 800;
     font-size: 1.4rem;
   }
-`;
-
-const ExpenseTableContainer = styled.div`
-  margin-bottom: 2rem;
 `;
 
 const StyledFooter = styled.div`
