@@ -6,6 +6,7 @@ import { useMemo, useState } from "react";
 import { sortExpenses } from "../utils/expenseUtils";
 import { useSearchParams } from "react-router-dom";
 import { PAGE_LENGTH } from "../utils/constants";
+import ExpensesFilters from "./ExpensesFilters";
 
 const caretUp = <i className="fa fa-caret-up"></i>;
 const caretDown = <i className="fa fa-caret-down"></i>;
@@ -55,20 +56,22 @@ export function ExpensesTable({ expenses }: Props) {
 
   const TableHeaders = () => {
     return (
-      <thead>
+      <Thead>
         <TR>
           <th></th>
           <th onClick={handleDateClick}>Date {showCaret(dateAsc)}</th>
           <th>R</th>
-          <th onClick={handleAmountClick}>Amount {showCaret(amountAsc)}</th>
+          <TextTH onClick={handleAmountClick}>
+            Amount {showCaret(amountAsc)}
+          </TextTH>
           <TextTH>Concept</TextTH>
         </TR>
-      </thead>
+      </Thead>
     );
   };
   return (
     <ExpenseTableContainer>
-      <Heading as="h3">Last expenses</Heading>
+      <Heading as="h2">All expenses</Heading>
       <Table>
         <TableHeaders />
         <TableBody expenses={sortedExpenses} />
@@ -109,7 +112,7 @@ function TableFooter({ numberOfExpenses }: { numberOfExpenses: number }) {
   return (
     <tfoot>
       <tr>
-        <td colSpan={5}>
+        <td colSpan={6}>
           <StyledFooter>
             <P>
               Showing <StyledSpan>{first}</StyledSpan> to
@@ -140,43 +143,44 @@ function TableFooter({ numberOfExpenses }: { numberOfExpenses: number }) {
 }
 
 const Table = styled.table`
+  border-radius: var(--border-radius-lg);
   width: 100%;
-  border: none;
+  border: 1px solid var(--color-grey-200);
+  border-collapse: collapse;
 
-  & tr:nth-of-type(even) {
+  /* & tr:nth-of-type(even) {
     background-color: var(--color-grey-50);
 
     & td:first-of-type,
     td:last-of-type {
       background-color: var(--color-grey-0);
     }
-  }
+  } */
 `;
 
 const TextTH = styled.th`
   text-align: left;
-  padding-left: 10px;
 `;
 
 const TR = styled.tr`
   border-bottom: 1px solid var(--color-gray-100);
+  font-weight: 500;
 
   & th {
     cursor: pointer;
+    font-weight: 800;
+    font-size: 1.4rem;
   }
 `;
 
 const ExpenseTableContainer = styled.div`
-  border-radius: var(--border-radius-md);
-  padding: 3rem 5rem;
   margin-bottom: 2rem;
-  background-color: var(--color-grey-0);
 `;
 
 const StyledFooter = styled.div`
   display: flex;
   justify-content: space-between;
-  margin-top: 20px;
+  padding: 12px;
 `;
 
 const StyledSpan = styled.span`
@@ -208,4 +212,9 @@ const Buttons = styled.div``;
 
 const P = styled.p`
   padding: 0.75rem 1.5rem;
+`;
+
+const Thead = styled.thead`
+  height: 50px;
+  text-transform: uppercase;
 `;

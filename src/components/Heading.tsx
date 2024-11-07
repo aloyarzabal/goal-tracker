@@ -14,20 +14,20 @@ const Heading = styled.h1<{ $center?: boolean }>`
   ${(props) =>
     props.as === "h2" &&
     css`
-      font-size: 2rem;
+      font-size: 3rem;
       font-weight: 600;
     `}
 
   ${(props) =>
     props.as === "h3" &&
     css`
-      font-size: 2rem;
+      font-size: 2.5rem;
       font-weight: 500;
     `}
 
   line-height: 1.4;
-  margin-bottom: 40px;
-  text-align: ${(props) => (props.$center ? "center" : "none")};
+  margin-bottom: 30px;
+  text-align: ${(props) => (props.$center ? "center" : "unset")};
 `;
 
 export default Heading;

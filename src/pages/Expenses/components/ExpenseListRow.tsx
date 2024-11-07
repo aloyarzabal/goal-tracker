@@ -64,60 +64,58 @@ export function ExpenseListRow({ expense }: Props) {
   );
 
   return (
-    <>
-      <TableRow
-        onMouseOver={handleOnMouseOver}
-        onMouseLeave={handleOnMouseLeave}
-      >
-        <IconCell>
-          <CategoryIcon category={category} size="small" />
-        </IconCell>
-        <DateCell>{date}</DateCell>
-        <IconCell>
-          {recurrent && <Icon icon="repeat" size="mini"></Icon>}
-        </IconCell>
-        <AmountCell>{formattedAmount(amount)}</AmountCell>
-        <TextCell>{concept}</TextCell>
-        <IconsCell>
-          <Wrapper>
-            {hovered && (
-              <>
-                <ClickableIcon
-                  icon="edit"
-                  size="mini"
-                  onClick={() => setShowEditModal(true)}
-                />
-              </>
-            )}
+    <TR onMouseOver={handleOnMouseOver} onMouseLeave={handleOnMouseLeave}>
+      <IconCell>
+        <CategoryIcon category={category} size="small" />
+      </IconCell>
+      <DateCell>{date}</DateCell>
+      <IconCell>
+        {recurrent && <Icon icon="repeat" size="mini"></Icon>}
+      </IconCell>
+      <AmountCell>{formattedAmount(amount)}</AmountCell>
+      <TextCell>{concept}</TextCell>
+      <IconsCell>
+        <Wrapper>
+          {hovered && (
+            <>
+              <ClickableIcon
+                icon="threedots"
+                size="mini"
+                onClick={() => setShowEditModal(true)}
+              />
+            </>
+          )}
 
-            {hovered && (
-              <>
-                <ClickableIcon
-                  icon="delete"
-                  size="mini"
-                  onClick={() => setShowConfirmDeletion(true)}
-                />
-              </>
-            )}
-          </Wrapper>
-          {showEditModal && editExpenseModal}
-          {showConfirmDeletion && confirmDeletionMessage}
-        </IconsCell>
-      </TableRow>
-    </>
+          {hovered && (
+            <>
+              <ClickableIcon
+                icon="delete"
+                size="mini"
+                onClick={() => setShowConfirmDeletion(true)}
+              />
+            </>
+          )}
+        </Wrapper>
+        {showEditModal && editExpenseModal}
+        {showConfirmDeletion && confirmDeletionMessage}
+      </IconsCell>
+    </TR>
   );
 }
 
-const TableRow = styled.tr`
+const TR = styled.tr`
   text-align: center;
+  height: 35px;
+  background-color: var(--color-grey-0);
+  border-bottom: 1px solid var(--color-grey-100);
 
   &:hover {
-    background-color: var(--color-main-25) !important;
+    background-color: var(--color-grey-50);
 
-    & td:last-of-type,
+    /* & td:last-of-type,
     td:first-of-type {
       background-color: var(--color-grey-0);
-    }
+    } */
   }
 `;
 
@@ -127,7 +125,7 @@ const TextCell = styled.td`
 `;
 const AmountCell = styled.td`
   min-width: 7rem;
-  text-align: center;
+  text-align: left;
   padding-left: 10px;
 `;
 

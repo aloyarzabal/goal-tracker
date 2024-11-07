@@ -2,7 +2,6 @@ import styled, { css } from "styled-components";
 import { FoodIcon } from "./icons/FoodIcon";
 import { HouseIcon } from "./icons/HouseIcon";
 import { PaymentIcon } from "./icons/PaymentIcon";
-import { StackedCoinsIcon } from "./icons/StackedCoinsIcon";
 import { SizeToMeasures } from "../utils/expenseUtils";
 import { ExpenseIcon } from "./icons/ExpenseIcon";
 import { OthersIcon } from "./icons/OthersIcon";
@@ -12,6 +11,8 @@ import { CellphoneIcon } from "./icons/CellphoneIcon";
 import { TaxiIcon } from "./icons/TaxiIcon";
 import { TransportationIcon } from "./icons/TransportationIcon";
 import { GymIcon } from "./icons/GymIcon";
+import { RestaurantIcon } from "./icons/RestaurantIcon";
+import { MoneyIcon } from "./icons/MoneyIcon";
 
 interface Props {
   size: "small" | "medium" | "large";
@@ -23,7 +24,7 @@ export function CategoryIcon({ size, category }: Props) {
   const renderIcon = () => {
     switch (category) {
       case "salary":
-        return <StackedCoinsIcon color="green" {...iconSize} />;
+        return <MoneyIcon color="green" {...iconSize} />;
       case "house":
         return <HouseIcon color="orange" {...iconSize} />;
       case "payments":
@@ -46,6 +47,8 @@ export function CategoryIcon({ size, category }: Props) {
         return <OthersIcon color="brown" {...iconSize} />;
       case "transportation":
         return <TransportationIcon color="darkgreen" {...iconSize} />;
+      case "restaurants":
+        return <RestaurantIcon color="black" {...iconSize} />;
       default:
         return <OthersIcon color="brown" {...iconSize} />;
     }
@@ -71,12 +74,6 @@ const IconWrapper = styled.div<{ type?: string }>`
     props.type === "salary" &&
     css`
       background-color: var(--color-green-100);
-    `}
-
-  ${(props) =>
-    props.type === "food" &&
-    css`
-      background-color: var(--color-pink-100);
     `}
 
   ${(props) =>

@@ -37,17 +37,19 @@ export function ExpensesSummary({ expenses }: Props) {
         if (!systemCategories?.find((syscat) => syscat.category === category)) {
           return;
         }
-        return (
-          <TotalDisplay key={category}>
-            <CategoryIcon category={category} size="medium" />
-            <TotalDisplayFieldWrapper>
-              <TotalDisplayAmountField>
-                {formattedAmount(amount)}
-              </TotalDisplayAmountField>
-              <TotalDisplayTextField>{category} </TotalDisplayTextField>
-            </TotalDisplayFieldWrapper>
-          </TotalDisplay>
-        );
+        if (amount > 0) {
+          return (
+            <TotalDisplay key={category}>
+              <CategoryIcon category={category} size="medium" />
+              <TotalDisplayFieldWrapper>
+                <TotalDisplayAmountField>
+                  {formattedAmount(amount)}
+                </TotalDisplayAmountField>
+                <TotalDisplayTextField>{category} </TotalDisplayTextField>
+              </TotalDisplayFieldWrapper>
+            </TotalDisplay>
+          );
+        }
       }
     );
 
@@ -65,7 +67,6 @@ const ExpensesSummaryWrapper = styled.div`
   display: flex;
   flex-wrap: wrap;
   justify-content: flex-start;
-  margin: 70px 0;
   gap: 10px;
 `;
 

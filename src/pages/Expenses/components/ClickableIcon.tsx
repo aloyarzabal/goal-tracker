@@ -3,9 +3,10 @@ import { SizeToMeasures } from "../utils/expenseUtils";
 import { DeleteIcon } from "./icons/DeleteIcon";
 import { EditIcon } from "./icons/EditIcon";
 import { RepeatIcon } from "../../../components/icons/RepeatIcon";
+import { ThreeDotsIcon } from "./icons/ThreeDotsIcon";
 
 interface Props {
-  icon: "edit" | "delete" | "repeat";
+  icon: "edit" | "delete" | "repeat" | "threedots";
   size: "small" | "medium" | "large" | "mini";
   onClick: () => void;
 }
@@ -20,6 +21,8 @@ export function ClickableIcon({ icon, size, onClick }: Props) {
         return <EditIcon {...iconSize} />;
       case "repeat":
         return <RepeatIcon {...iconSize} />;
+      case "threedots":
+        return <ThreeDotsIcon {...iconSize} />;
       default:
         return <DeleteIcon {...iconSize} />;
     }

@@ -1,4 +1,4 @@
-import styled from "styled-components";
+import Filter from "../../../components/Filter";
 import { months, todaysMonthName } from "../../../utils/formatDate";
 import { useSearchParams } from "react-router-dom";
 
@@ -7,12 +7,6 @@ export default function ExpensesFilters() {
 
   const selectedMonth = searchParams.get("month") || todaysMonthName();
 
-  const dropdownMonths = Object.values(months).map((month) => (
-    <option key={month} value={month}>
-      {month}
-    </option>
-  ));
-
   const handleChange = (ev: React.ChangeEvent<HTMLSelectElement>) => {
     const value = ev.target.value;
     searchParams.set("month", value);
@@ -20,27 +14,16 @@ export default function ExpensesFilters() {
     setSearchParams(searchParams);
   };
 
+  const options = Object.values(months).map((month) => ({
+    name: month,
+    value: month,
+  }));
+
   return (
-    <Container>
-      <Label htmlFor="month-select">Month:</Label>
-      <select
-        id="month-select"
-        onChange={handleChange}
-        defaultValue={selectedMonth}
-      >
-        {dropdownMonths}
-      </select>
-    </Container>
+    <Filter
+      defaultValue={selectedMonth}
+      handleChange={handleChange}
+      options={options}
+    />
   );
 }
-
-const Container = styled.div`
-  background-color: var(--color-grey-0);
-  padding: 1rem 5rem;
-  margin: 10px 0;
-  border-radius: var(--border-radius-sm);
-`;
-
-const Label = styled.label`
-  padding-right: 2rem;
-`;

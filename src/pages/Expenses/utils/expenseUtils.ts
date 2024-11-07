@@ -8,7 +8,10 @@ export const SizeToMeasures = {
 };
 
 export function formattedAmount(amount: number) {
-  return amount.toFixed(2).replace(".", ",");
+  return amount.toLocaleString("de-DE", {
+    maximumFractionDigits: 2,
+    minimumFractionDigits: 2,
+  });
 }
 
 export const sortExpenses = (
