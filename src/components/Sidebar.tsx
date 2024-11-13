@@ -1,7 +1,6 @@
 import styled from "styled-components";
-import { Image } from "./Image";
-import Heading from "./Heading";
 import { MainNav } from "./MainNav";
+import Logo from "./Logo";
 
 const StyledSidebar = styled.aside`
   padding: 3.2rem 2.4rem;
@@ -14,10 +13,7 @@ const StyledSidebar = styled.aside`
 export function Sidebar() {
   return (
     <StyledSidebar>
-      <Image type="logo" />
-      <Heading as="h1" $center>
-        Goal tracker
-      </Heading>
+      <Logo />
       <MainNav />
     </StyledSidebar>
   );
