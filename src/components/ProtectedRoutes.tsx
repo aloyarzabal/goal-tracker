@@ -16,8 +16,6 @@ export default function ProtectedRoutes({ children }: Props) {
     }
   }, [navigate, isLoading, isAuthenticated]);
 
-  console.log("PROT", isLoading, isAuthenticated);
-
   if (isLoading) return <Spinner />;
   if (!isLoading) return children;
 }

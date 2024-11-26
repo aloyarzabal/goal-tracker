@@ -26,7 +26,10 @@ export function SummaryExpensesTab() {
       <ExpensesDashboard expenses={expenses} />
       <ExpensesTable expenses={expenses} />
       {showForm && <NewExpenseModal onClose={closeModal} />}
-      <Button onClick={showModal}> + Add Expense</Button>
+      <Button $position="right" onClick={showModal}>
+        {" "}
+        + Add Expense
+      </Button>
     </StyledPage>
   );
 }

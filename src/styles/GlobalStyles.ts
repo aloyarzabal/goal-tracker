@@ -58,8 +58,12 @@ const GlobalStyles = createGlobalStyle`
   --shadow-md: 0px 0.6rem 2.4rem rgba(0, 0, 0, 0.16);
   --shadow-lg: 0 2.4rem 3.2rem rgba(0, 0, 0, 0.12);
 
+  /* Font-size */
+  --font-size-sm: 1.15rem;
+  --font-size-med: 1.5rem;
+  --font-size-big: 2rem;
 
-
+  /* Border Radius */
   --border-radius-tiny: 3px;
   --border-radius-sm: 5px;
   --border-radius-md: 7px;

@@ -17,7 +17,7 @@ export default function Filter({ defaultValue, options, handleChange }: Props) {
   ));
 
   return (
-    <Container>
+    <div>
       <StyledSelect
         id="month-select"
         onChange={handleChange}
@@ -25,11 +25,9 @@ export default function Filter({ defaultValue, options, handleChange }: Props) {
       >
         {opts}
       </StyledSelect>
-    </Container>
+    </div>
   );
 }
-
-const Container = styled.div``;
 
 const StyledSelect = styled.select`
   padding: 4px 12px;

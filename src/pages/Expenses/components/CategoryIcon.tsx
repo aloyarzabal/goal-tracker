@@ -13,6 +13,7 @@ import { TransportationIcon } from "./icons/TransportationIcon";
 import { GymIcon } from "./icons/GymIcon";
 import { RestaurantIcon } from "./icons/RestaurantIcon";
 import { MoneyIcon } from "./icons/MoneyIcon";
+import { FlightIcon } from "./icons/FlightIcon";
 
 interface Props {
   size: "small" | "medium" | "large";
@@ -48,7 +49,9 @@ export function CategoryIcon({ size, category }: Props) {
       case "transport":
         return <TransportationIcon color="darkgreen" {...iconSize} />;
       case "restaurants":
-        return <RestaurantIcon color="black" {...iconSize} />;
+        return <RestaurantIcon color="darkorange" {...iconSize} />;
+      case "flights":
+        return <FlightIcon color="darksalmon" {...iconSize} />;
       default:
         return <OthersIcon color="brown" {...iconSize} />;
     }
