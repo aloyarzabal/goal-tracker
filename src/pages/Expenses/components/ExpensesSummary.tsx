@@ -5,6 +5,7 @@ import { CategoryIcon } from "./CategoryIcon";
 import { useCategories } from "../hooks/useCategories";
 import { Spinner } from "../../../components/Spinner";
 import { formattedAmount } from "../utils/expenseUtils";
+import { caretDown, caretUp } from "../../../components/icons/Carets";
 
 interface Props {
   expenses: expense[];
@@ -19,6 +20,8 @@ export function ExpensesSummary({ expenses }: Props) {
 
   const entries = useMemo(() => {
     const amountsPerCategory: amounts = Object.create(null);
+    let positiveAmount = 0;
+    let expendedAmount = 0;
 
     if (systemCategories) {
       systemCategories.forEach((cat) => {
@@ -37,6 +40,11 @@ export function ExpensesSummary({ expenses }: Props) {
         if (!systemCategories?.find((syscat) => syscat.category === category)) {
           return;
         }
+
+        category === "salary"
+          ? (positiveAmount += amount)
+          : (expendedAmount += amount);
+
         if (amount > 0) {
           return (
             <TotalDisplay key={category}>
@@ -53,14 +61,24 @@ export function ExpensesSummary({ expenses }: Props) {
       }
     );
 
-    return fields;
+    return (
+      <>
+        <PositiveAmount>
+          {caretUp} {formattedAmount(positiveAmount - expendedAmount)}
+        </PositiveAmount>
+        <NegativeAmount>
+          {caretDown} {formattedAmount(expendedAmount)}
+        </NegativeAmount>
+        <ExpensesSummaryWrapper>{fields}</ExpensesSummaryWrapper>
+      </>
+    );
   }, [expenses, systemCategories]);
 
   if (isLoading) {
     return <Spinner />;
   }
 
-  return <ExpensesSummaryWrapper>{entries}</ExpensesSummaryWrapper>;
+  return entries;
 }
 
 const ExpensesSummaryWrapper = styled.div`
@@ -91,4 +109,14 @@ const TotalDisplayAmountField = styled.p`
 const TotalDisplayFieldWrapper = styled.div`
   text-align: center;
   width: 100px;
+`;
+
+const PositiveAmount = styled.span`
+  color: var(--color-green-700);
+  font-size: var(--font-size-sm);
+  margin: 0 10px;
+`;
+const NegativeAmount = styled.span`
+  color: var(--color-red-700);
+  font-size: var(--font-size-sm);
 `;
