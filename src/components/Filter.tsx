@@ -1,11 +1,11 @@
 import styled from "styled-components";
 
 interface Props {
-  defaultValue: string;
+  defaultValue: any;
   handleChange: (ev: React.ChangeEvent<HTMLSelectElement>) => void;
   options: {
-    value: string;
-    name: string;
+    value: any;
+    name: any;
   }[];
 }
 
@@ -17,7 +17,7 @@ export default function Filter({ defaultValue, options, handleChange }: Props) {
   ));
 
   return (
-    <div>
+    <>
       <StyledSelect
         id="month-select"
         onChange={handleChange}
@@ -25,7 +25,7 @@ export default function Filter({ defaultValue, options, handleChange }: Props) {
       >
         {opts}
       </StyledSelect>
-    </div>
+    </>
   );
 }
 

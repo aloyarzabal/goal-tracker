@@ -2,10 +2,14 @@ import { expenseApiView, expenseToApi } from "../pages/Expenses/types/expense";
 import { supabase } from "./supabase";
 
 export async function getExpensesByMonth(
-  month: number
+  month: number,
+  year: number
 ): Promise<expenseApiView[]> {
-  const startingDate = new Date(`2024-${month}-01`).toISOString();
-  const finishingDate = new Date(`2024-${month + 1}-01`).toISOString();
+  const finalYear = month === 12 ? year + 1 : year;
+  const finalMonth = month === 12 ? 1 : month + 1;
+
+  const startingDate = new Date(`${year}-${month}-01`).toISOString();
+  const finishingDate = new Date(`${finalYear}-${finalMonth}-01`).toISOString();
 
   const query = supabase
     .from("expenses")

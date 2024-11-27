@@ -1,7 +1,7 @@
 import { useState } from "react";
 import { ExpensesTable } from "./ExpensesTable";
 import { NewExpenseModal } from "./NewExpenseModal";
-import { useMonthExpenses } from "../hooks/useMonthExpenses";
+import { useMonthYearExpenses } from "../hooks/useMonthYearExpenses";
 import Button from "../../../components/Button";
 import { Spinner } from "../../../components/Spinner";
 import { ExpensesDashboard } from "./ExpensesDashboard";
@@ -9,7 +9,7 @@ import styled from "styled-components";
 
 export function SummaryExpensesTab() {
   const [showForm, setShowForm] = useState(false);
-  const { expenses, isLoading } = useMonthExpenses();
+  const { expenses, isLoading } = useMonthYearExpenses();
 
   const showModal = () => {
     setShowForm(true);
@@ -27,7 +27,6 @@ export function SummaryExpensesTab() {
       <ExpensesTable expenses={expenses} />
       {showForm && <NewExpenseModal onClose={closeModal} />}
       <Button $position="right" onClick={showModal}>
-        {" "}
         + Add Expense
       </Button>
     </StyledPage>

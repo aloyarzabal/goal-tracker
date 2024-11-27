@@ -34,9 +34,11 @@ export function todaysMonthName() {
 }
 export function todaysYear() {
   const date = new Date();
-  const year = date.getFullYear();
-
-  return year;
+  return date.getFullYear();
+}
+export function todaysYearString() {
+  const date = new Date();
+  return String(date.getFullYear());
 }
 
 export function todayFullDate() {
